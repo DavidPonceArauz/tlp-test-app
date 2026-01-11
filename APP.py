@@ -176,4 +176,3 @@ else:
     if st.button("🔄 Reiniciar test"):
         st.session_state.clear()
         st.rerun()
-
