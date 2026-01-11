@@ -1,259 +1,179 @@
 import streamlit as st
 
-# ---------------- CONFIGURACIÓN ---------------- #
-
+# -----------------------------
+# CONFIGURACIÓN INICIAL
+# -----------------------------
 st.set_page_config(
-    page_title="Test emocional (orientativo)",
-    page_icon="💙",
+    page_title="Test Orientativo de TLP",
+    page_icon="🧠",
     layout="centered"
 )
 
-ESCALA = [
-    "Nunca",
-    "Rara vez",
-    "A veces",
-    "Frecuentemente",
-    "Casi siempre"
-]
+# -----------------------------
+# ADVERTENCIA LEGAL
+# -----------------------------
+st.title("🧠 Test Orientativo de Trastorno Límite de la Personalidad (TLP)")
 
-CRITERIOS = {
-    "Miedo al abandono": [
-        (
-            "Siento mucho miedo de que las personas importantes se vayan de mi vida.",
-            "Ejemplo: Como cuando un niño piensa que sus padres lo van a dejar solo si se enojan."
-        ),
-        (
-            "Me pongo muy nervioso cuando alguien tarda en responderme.",
-            "Ejemplo: Mandas un mensaje y, si no contestan rápido, piensas que ya no te quieren."
-        ),
-        (
-            "Hago cosas desesperadas para que no me dejen.",
-            "Ejemplo: Rogar, insistir mucho o hacer algo que no quieres solo para que se quede."
-        ),
-        (
-            "Pequeños cambios me hacen pensar que me van a abandonar.",
-            "Ejemplo: Si alguien habla menos, sientes que ya no le importas."
-        )
-    ],
-    "Relaciones inestables": [
-        (
-            "Al inicio veo a las personas como perfectas y luego me decepcionan mucho.",
-            "Ejemplo: Pensar que alguien es increíble y luego sentir que es horrible."
-        ),
-        (
-            "Mis relaciones suelen ser muy intensas.",
-            "Ejemplo: Amistades o parejas donde todo se siente muy fuerte."
-        ),
-        (
-            "Puedo pasar de querer mucho a alguien a rechazarlo.",
-            "Ejemplo: Un día quieres estar siempre con alguien y al otro no soportarlo."
-        ),
-        (
-            "Mis relaciones terminan con conflictos fuertes.",
-            "Ejemplo: Peleas grandes, bloqueos o rupturas dolorosas."
-        )
-    ],
-    "Identidad inestable": [
-        (
-            "A veces no sé bien quién soy.",
-            "Ejemplo: Sentir que cambias dependiendo con quién estés."
-        ),
-        (
-            "Mi forma de verme cambia mucho.",
-            "Ejemplo: Un día sentirte capaz y otro sentirte inútil."
-        ),
-        (
-            "No siento que tenga una identidad clara.",
-            "Ejemplo: No saber qué te define como persona."
-        ),
-        (
-            "Mis metas cambian seguido.",
-            "Ejemplo: Querer una cosa hoy y otra mañana."
-        )
-    ],
-    "Impulsividad": [
-        (
-            "Hago cosas sin pensar y luego me arrepiento.",
-            "Ejemplo: Gastar dinero o decir algo sin pensar."
-        ),
-        (
-            "He hecho cosas arriesgadas sin medir consecuencias.",
-            "Ejemplo: Decisiones que podrían hacerte daño."
-        ),
-        (
-            "Cuando estoy mal emocionalmente, me cuesta controlarme.",
-            "Ejemplo: Actuar solo para calmar lo que sientes."
-        ),
-        (
-            "Actúo antes de pensar.",
-            "Ejemplo: Reaccionar rápido y reflexionar después."
-        )
-    ],
-    "Conductas autodestructivas": [
-        (
-            "Cuando me siento muy mal, pienso en hacerme daño.",
-            "Ejemplo: Pensar que lastimarte podría calmar lo que sientes."
-        ),
-        (
-            "A veces pienso que sería mejor desaparecer.",
-            "Ejemplo: Desear no existir por un momento."
-        ),
-        (
-            "Uso cosas dañinas para aliviar emociones.",
-            "Ejemplo: Hacer algo que sabes que te hace mal."
-        ),
-        (
-            "Siento alivio después de dañarme.",
-            "Ejemplo: Calmarte por poco tiempo."
-        )
-    ],
-    "Inestabilidad emocional": [
-        (
-            "Mis emociones cambian muy rápido.",
-            "Ejemplo: Estar bien y luego muy mal sin razón clara."
-        ),
-        (
-            "Mis emociones son muy intensas.",
-            "Ejemplo: Sentir todo exageradamente fuerte."
-        ),
-        (
-            "Me cuesta volver a la calma.",
-            "Ejemplo: Tardar mucho en tranquilizarte."
-        ),
-        (
-            "Siento que mis emociones me controlan.",
-            "Ejemplo: No poder manejarlas."
-        )
-    ],
-    "Vacío emocional": [
-        (
-            "Siento un vacío dentro de mí.",
-            "Ejemplo: Como si algo faltara aunque todo esté bien."
-        ),
-        (
-            "Nada parece llenarme.",
-            "Ejemplo: Las cosas no te hacen sentir completo."
-        ),
-        (
-            "Me siento desconectado.",
-            "Ejemplo: Como lejos de todos."
-        ),
-        (
-            "Siento que algo importante falta en mí.",
-            "Ejemplo: No saber qué es, pero sentirlo."
-        )
-    ],
-    "Ira intensa": [
-        (
-            "Me enojo muy fuerte.",
-            "Ejemplo: Enojos grandes por cosas pequeñas."
-        ),
-        (
-            "Me cuesta controlar mi enojo.",
-            "Ejemplo: Decir cosas que luego lamentas."
-        ),
-        (
-            "Luego me siento culpable.",
-            "Ejemplo: Pensar “no debía reaccionar así”."
-        ),
-        (
-            "Mi enojo afecta mis relaciones.",
-            "Ejemplo: Personas que se alejan."
-        )
-    ],
-    "Pensamiento extremo": [
-        (
-            "Veo las cosas como todo o nada.",
-            "Ejemplo: Algo es perfecto o terrible."
-        ),
-        (
-            "Me cuesta ver puntos medios.",
-            "Ejemplo: Solo blanco o negro."
-        ),
-        (
-            "Cambio rápido de opinión sobre las personas.",
-            "Ejemplo: Admirar y luego despreciar."
-        ),
-        (
-            "Mis pensamientos son extremos.",
-            "Ejemplo: Amar u odiar sin grises."
-        )
-    ]
-}
+st.warning("""
+⚠️ **IMPORTANTE – LEE ANTES DE CONTINUAR**
 
-# ---------------- ESTADO ---------------- #
+Este test:
+- ❌ NO es un diagnóstico médico
+- ❌ NO reemplaza a un psicólogo o psiquiatra
+- ✅ Es solo una herramienta **orientativa y educativa**
 
-if "indice" not in st.session_state:
-    st.session_state.indice = -1
+Si el resultado te preocupa, **habla con un profesional de salud mental**.
+""")
+
+st.markdown("---")
+
+# -----------------------------
+# INICIALIZAR ESTADO
+# -----------------------------
+if "pregunta_actual" not in st.session_state:
+    st.session_state.pregunta_actual = 0
+
+if "respuestas" not in st.session_state:
     st.session_state.respuestas = []
 
-# ---------------- PANTALLAS ---------------- #
-
-st.title("💙 Test emocional (orientativo)")
-
-if st.session_state.indice == -1:
-    st.warning("""
-    ⚠️ **Aviso importante**
-
-    Este test **NO es un diagnóstico**.
-    Sirve solo como una herramienta de orientación emocional.
-
-    Responde pensando en **cómo eres en general**, no en un mal día.
-    Si alguna pregunta te incomoda, puedes cerrar la app.
-    """)
-    if st.button("👉 Comenzar"):
-        st.session_state.indice = 0
-        st.experimental_rerun()
-
-else:
-    preguntas = []
-    for criterio, items in CRITERIOS.items():
-        for p, e in items:
-            preguntas.append((criterio, p, e))
-
-    if st.session_state.indice < len(preguntas):
-        criterio, pregunta, ejemplo = preguntas[st.session_state.indice]
-
-        st.subheader(f"Pregunta {st.session_state.indice + 1} de {len(preguntas)}")
-        st.caption(f"Criterio: {criterio}")
-
-        st.markdown(f"**{pregunta}**")
-        st.info(ejemplo)
-
-        respuesta = st.radio(
-            "Elige una opción:",
-            list(range(5)),
-            format_func=lambda x: ESCALA[x],
-            key=f"preg_{st.session_state.indice}"
+# -----------------------------
+# PREGUNTAS DEL TEST
+# -----------------------------
+preguntas = [
+    {
+        "pregunta": "¿Tus emociones cambian muy rápido?",
+        "explicacion": (
+            "Por ejemplo:\n\n"
+            "Un momento estás muy feliz porque alguien te habló bonito, "
+            "y poco después estás muy triste o enojado sin saber exactamente por qué."
         )
+    },
+    {
+        "pregunta": "¿Sientes miedo intenso a que las personas te abandonen?",
+        "explicacion": (
+            "Por ejemplo:\n\n"
+            "Si alguien no responde un mensaje, piensas que ya no te quiere "
+            "o que se va a ir de tu vida."
+        )
+    },
+    {
+        "pregunta": "¿Cambias mucho la forma en que te ves a ti mismo?",
+        "explicacion": (
+            "Por ejemplo:\n\n"
+            "Un día piensas que eres una buena persona y al otro día sientes "
+            "que no vales nada o que no sabes quién eres."
+        )
+    },
+    {
+        "pregunta": "¿Tomas decisiones impulsivas que luego lamentas?",
+        "explicacion": (
+            "Por ejemplo:\n\n"
+            "Gastar dinero sin pensar, decir cosas hirientes cuando estás molesto "
+            "o hacer algo peligroso solo para sentir algo."
+        )
+    },
+    {
+        "pregunta": "¿Sientes un vacío interno difícil de explicar?",
+        "explicacion": (
+            "Por ejemplo:\n\n"
+            "Aunque todo esté bien afuera, por dentro sientes como si algo faltara "
+            "y nada te llena completamente."
+        )
+    },
+    {
+        "pregunta": "¿Te enojas muy fuerte y te cuesta controlarlo?",
+        "explicacion": (
+            "Por ejemplo:\n\n"
+            "Te molestas tanto que gritas, rompes cosas o dices cosas que luego te arrepientes."
+        )
+    },
+    {
+        "pregunta": "¿Idealizas mucho a las personas y luego te decepcionan?",
+        "explicacion": (
+            "Por ejemplo:\n\n"
+            "Alguien te parece perfecto y muy importante, pero luego un pequeño error "
+            "hace que lo veas como alguien malo."
+        )
+    },
+    {
+        "pregunta": "¿Sientes emociones muy intensas por mucho tiempo?",
+        "explicacion": (
+            "Por ejemplo:\n\n"
+            "Cuando estás triste o enojado, esa emoción dura horas o días y se siente muy fuerte."
+        )
+    },
+    {
+        "pregunta": "¿Te cuesta estar solo contigo mismo?",
+        "explicacion": (
+            "Por ejemplo:\n\n"
+            "Cuando estás solo te sientes muy incómodo, triste o ansioso."
+        )
+    },
+    {
+        "pregunta": "¿Sientes que reaccionas más fuerte que otras personas?",
+        "explicacion": (
+            "Por ejemplo:\n\n"
+            "Algo pequeño te afecta muchísimo más que a los demás."
+        )
+    }
+]
 
-        if st.button("Siguiente ➡️"):
-            st.session_state.respuestas.append(respuesta)
-            st.session_state.indice += 1
-            st.experimental_rerun()
+# -----------------------------
+# ESCALA DE RESPUESTAS
+# -----------------------------
+opciones = {
+    "Nunca": 0,
+    "Rara vez": 1,
+    "A veces": 2,
+    "Casi siempre": 3,
+    "Siempre": 4
+}
 
+# -----------------------------
+# MOSTRAR PREGUNTAS
+# -----------------------------
+if st.session_state.pregunta_actual < len(preguntas):
+    p = preguntas[st.session_state.pregunta_actual]
+
+    st.subheader(f"Pregunta {st.session_state.pregunta_actual + 1} de {len(preguntas)}")
+    st.markdown(f"### {p['pregunta']}")
+    st.info(p["explicacion"])
+
+    respuesta = st.radio(
+        "Elige la opción que más se parezca a ti:",
+        list(opciones.keys()),
+        key=st.session_state.pregunta_actual
+    )
+
+    if st.button("➡️ Siguiente"):
+        st.session_state.respuestas.append(opciones[respuesta])
+        st.session_state.pregunta_actual += 1
+        st.rerun()
+
+# -----------------------------
+# RESULTADOS
+# -----------------------------
+else:
+    st.title("📊 Resultado del Test")
+
+    puntaje_total = sum(st.session_state.respuestas)
+    puntaje_maximo = len(preguntas) * 4
+    probabilidad = round((puntaje_total / puntaje_maximo) * 100, 1)
+
+    st.write(f"**Puntaje obtenido:** {puntaje_total} / {puntaje_maximo}")
+    st.write(f"**Probabilidad orientativa:** {probabilidad}%")
+
+    if probabilidad < 30:
+        st.success("🔵 Probabilidad baja de rasgos TLP")
+        st.write("Tus respuestas muestran pocos rasgos compatibles con TLP.")
+    elif 30 <= probabilidad < 60:
+        st.warning("🟡 Probabilidad moderada de rasgos TLP")
+        st.write("Podrías tener algunos rasgos emocionales intensos. Observar y reflexionar puede ayudar.")
     else:
-        total = sum(st.session_state.respuestas)
-        max_total = len(st.session_state.respuestas) * 4
+        st.error("🔴 Probabilidad alta de rasgos TLP")
+        st.write("Sería muy recomendable hablar con un profesional de salud mental.")
 
-        criterios_activados = 0
-        i = 0
-        for items in CRITERIOS.values():
-            puntos = sum(st.session_state.respuestas[i:i+len(items)])
-            if puntos >= len(items) * 4 * 0.6:
-                criterios_activados += 1
-            i += len(items)
+    if st.button("🔄 Reiniciar test"):
+        st.session_state.clear()
+        st.rerun()
 
-        prob = min((total / max_total) * 100 + criterios_activados * 5, 100)
-
-        st.success("✅ Test finalizado")
-        st.metric("Probabilidad estimada", f"{prob:.1f}%")
-
-        if prob < 30:
-            st.write("🔹 Probabilidad baja.")
-        elif prob < 60:
-            st.write("🟡 Probabilidad moderada.")
-        else:
-            st.write("🔴 Probabilidad alta. Se recomienda hablar con un profesional.")
-
-        st.caption("Este resultado no te define como persona 💙")
